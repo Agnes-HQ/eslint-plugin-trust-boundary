@@ -61,12 +61,3 @@ tester.run("no-public-database", rules["no-public-database"], {
     { code: `${pulumi}new aws.rds.Instance("db", { publiclyAccessible: true });`, errors: 1 },
   ],
 });
-
-tester.run("no-unencrypted-storage", rules["no-unencrypted-storage"], {
-  valid: [`${cdk}new rds.DatabaseCluster(this, "C", { storageEncrypted: true });`, "const x = { encrypted: false };"],
-  invalid: [
-    { code: `${pulumi}new aws.ebs.Volume("v", { size: 10, encrypted: false });`, errors: [{ messageId: "unencrypted" }] },
-    { code: `${cdk}new rds.DatabaseCluster(this, "C", { storageEncrypted: false });`, errors: 1 },
-    { code: `${cdk}new s3.Bucket(this, "B", { encryption: s3.BucketEncryption.UNENCRYPTED });`, errors: 1 },
-  ],
-});

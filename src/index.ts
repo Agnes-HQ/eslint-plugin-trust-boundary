@@ -6,13 +6,12 @@ import noPublicBucket from "./rules/no-public-bucket";
 import noPublicDatabase from "./rules/no-public-database";
 import noSecretPublicEnv from "./rules/no-secret-public-env";
 import noServerImportInClient from "./rules/no-server-import-in-client";
-import noUnencryptedStorage from "./rules/no-unencrypted-storage";
 import noWildcardIam from "./rules/no-wildcard-iam";
 import tanstackServerFnValidator from "./rules/tanstack-server-fn-validator";
 
 const PREFIX = "trust-boundary";
 
-/** Where input enters the server, and where secrets could leave it. */
+/** Browser → server (input coming in) and server → browser (secrets going out). */
 const serverRules = {
   "astro-action-input": astroActionInput,
   "tanstack-server-fn-validator": tanstackServerFnValidator,
@@ -21,13 +20,12 @@ const serverRules = {
   "no-server-import-in-client": noServerImportInClient,
 } satisfies Record<string, Rule.RuleModule>;
 
-/** What infrastructure code opens to the internet. */
+/** The perimeter infrastructure code draws: internet → your cloud, and one service → the rest of the account. */
 const infraRules = {
   "no-public-bucket": noPublicBucket,
   "no-wildcard-iam": noWildcardIam,
   "no-open-ingress": noOpenIngress,
   "no-public-database": noPublicDatabase,
-  "no-unencrypted-storage": noUnencryptedStorage,
 } satisfies Record<string, Rule.RuleModule>;
 
 const errors = (rules: Record<string, Rule.RuleModule>): Linter.RulesRecord =>
