@@ -1,0 +1,75 @@
+{
+  "name": "eslint-plugin-trust-boundary",
+  "version": "0.1.0",
+  "description": "ESLint rules for the places where trust changes hands in full-stack TypeScript: server functions that take unvalidated input, secrets that reach the browser, and infrastructure code that opens resources to the internet.",
+  "keywords": [
+    "eslint",
+    "eslintplugin",
+    "eslint-plugin",
+    "security",
+    "server-actions",
+    "sveltekit",
+    "astro",
+    "tanstack-start",
+    "nuxt",
+    "aws-cdk",
+    "pulumi",
+    "sst"
+  ],
+  "homepage": "https://github.com/Agnes-HQ/eslint-plugin-trust-boundary#readme",
+  "bugs": "https://github.com/Agnes-HQ/eslint-plugin-trust-boundary/issues",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Agnes-HQ/eslint-plugin-trust-boundary.git"
+  },
+  "license": "MIT",
+  "author": "Agnes (https://agnes.dev)",
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    },
+    "./package.json": "./package.json"
+  },
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "sideEffects": false,
+  "scripts": {
+    "build": "tsup",
+    "test": "vitest run",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "check": "npm run typecheck && npm test && npm run build && node test/smoke.mjs"
+  },
+  "peerDependencies": {
+    "eslint": ">=9.0.0"
+  },
+  "devDependencies": {
+    "@types/estree": "^1.0.10",
+    "@types/node": "^24.0.0",
+    "@typescript-eslint/parser": "^8.72.2",
+    "eslint": "^10.14.0",
+    "tsup": "^9.0.0",
+    "typescript": "^5.9.3",
+    "vitest": "^5.0.5"
+  },
+  "engines": {
+    "node": "^22.22.0 || >=24.8.0"
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  }
+}
