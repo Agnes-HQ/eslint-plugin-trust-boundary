@@ -26,7 +26,8 @@ const rule: Rule.RuleModule = {
     docs: { description: "Disallow secret-looking names on environment variables that frameworks expose to the browser", url: docsUrl("no-secret-public-env") },
     schema: [],
     messages: {
-      secret: "`{{name}}` has a prefix that puts it in the browser bundle, but its name says it's a secret. Keep secrets without a public prefix and read them on the server.",
+      secret:
+        "`{{name}}` has a public prefix, so the framework copies its value into browser code wherever it's used, but its name says it's a secret. Drop the prefix and read it on the server only.",
     },
   },
   create(context) {

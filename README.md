@@ -53,6 +53,8 @@ createServerFn({ method: "POST" }).handler(async ({ data }) => db.save(data));  
 createServerFn({ method: "POST" }).inputValidator(schema).handler(async ({ data }) => db.save(data));  // ✅
 ```
 
+Without a validator, TanStack Start passes the client's `data` to the handler as it is. A validator in a middleware (`.middleware([...])`, or global function middleware) isn't seen by this rule; add `.inputValidator()` on the function itself, or turn the rule off for that line.
+
 ### `h3-validated-input`
 
 For h3, Nuxt and Nitro server routes.
@@ -78,13 +80,13 @@ process.env.NEXT_PUBLIC_STRIPE_SECRET_KEY;       // ❌
 process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY;  // ✅
 ```
 
-Keys that are public by design (publishable keys, Supabase's anon key, Firebase's API key, Mapbox's access token) are not reported. Reads `process.env`, `import.meta.env`, destructuring from either, and `$env/static/public` / `astro:env/client` imports.
+Even in a file that only runs on the server, the prefix means one stray use in a component ships the value, and the name tells everyone reading the code that it's safe to do so. Keys that are public by design (publishable keys, Supabase's anon key, Firebase's API key, Mapbox's access token) are not reported. Reads `process.env`, `import.meta.env`, destructuring from either, and `$env/static/public` / `astro:env/client` imports.
 
 ### `no-server-import-in-client`
 
 A `"use client"` module runs in the browser too. Using Node built-ins (`fs`, `child_process`, ...), a database driver (`pg`, `mysql2`, `mongodb`, the Drizzle drivers, ...), `stripe` or `server-only` there either breaks, or brings server credentials close to the browser.
 
-Only imports used as values are reported: types disappear from the bundle, and Prisma's enums are made for the browser.
+Only imports used as values are reported: types disappear from the bundle, and Prisma's enums are made for the browser. Next.js already refuses to build a client module that imports `fs`, a database driver or `server-only`, so this rule mostly tells you sooner, in the editor; a server SDK that does bundle for the browser, such as `stripe`, is the case a build won't catch.
 
 ## Internet → your cloud
 
