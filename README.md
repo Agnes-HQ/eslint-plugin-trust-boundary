@@ -130,7 +130,14 @@ A `Deny` statement is fine.
 
 ---
 
-A public bucket for a website, or SSH open for a demo, can be exactly what you want. Then turn the rule off for that line, with a comment that says why.
+A public bucket for a website, or SSH open for a demo, can be exactly what you want. Then turn the rule off for that line, with a comment that says why:
+
+```ts
+// eslint-disable-next-line trust-boundary/no-public-bucket -- serves the static site
+new sst.aws.Bucket("Site", { access: "public" });
+```
+
+Name the rule rather than disabling everything, so the comment says what was decided and other rules still check the line. [Agnes](https://agnes.dev) honours exactly this form: `eslint-disable-next-line` on the line above the finding, or `eslint-disable-line` on its line, naming its rule. A comment without rule names, a block `eslint-disable`, or a rule turned off in a config comment still counts there.
 
 For full coverage of what your infrastructure creates, also run a tool on the synthesised output, such as [cdk-nag](https://github.com/cdklabs/cdk-nag) or Pulumi's policy packs.
 
