@@ -1,6 +1,6 @@
 {
   "name": "eslint-plugin-trust-boundary",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Lint the lines between browser, server and cloud: unvalidated input to server functions, secrets in the browser bundle, and infrastructure code (AWS CDK, Pulumi, SST) that opens resources to the internet.",
   "keywords": [
     "eslint",

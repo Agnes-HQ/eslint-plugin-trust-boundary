@@ -1,6 +1,10 @@
 # Changelog
 
-## 0.1.0 (unreleased)
+## 0.1.1 (2026-11-16)
+
+Documentation only: the README shows how to mark a finding that is on purpose (an `eslint-disable-next-line` comment naming the rule, with a reason), and which form Agnes honours.
+
+## 0.1.0 (2026-11-15)
 
 First release. Nine rules in two configs:
 
