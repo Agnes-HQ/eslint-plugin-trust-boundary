@@ -39,11 +39,16 @@ tester.run("h3-validated-input", rules["h3-validated-input"], {
     { code: "export default defineEventHandler((event) => getRouterParams(event));", filename: "server/routes/[id].ts" },
     // a readBody of the file's own
     { code: "function readBody(x) { return x; } export default defineEventHandler(async (e) => readBody(e));", filename: "server/api/x.ts" },
+    { code: 'import { readValidatedBody } from "nitro/h3"; export default (event) => readValidatedBody(event, schema.parse);', filename: "src/routes/save.ts" },
+    { code: 'import { readBody } from "nitro/h3"; export default async (event) => schema.parse(await readBody(event));', filename: "src/routes/save.ts" },
   ],
   invalid: [
     { code: 'import { readBody, defineEventHandler } from "h3"; export default defineEventHandler(async (e) => db.save(await readBody(e)));', errors: [{ messageId: "unvalidated", data: { name: "readBody", validated: "readValidatedBody" } }] },
     { code: "export default defineEventHandler(async (event) => { const { id } = getQuery(event); return db.get(id); });", filename: "server/api/item.get.ts", errors: [{ messageId: "unvalidated", data: { name: "getQuery", validated: "getValidatedQuery" } }] },
     { code: "export default defineEventHandler(async (event) => db.save(await readBody(event)));", filename: "/repo/server/routes/save.ts", errors: 1 },
+    // Nitro 3: the helpers come from nitro/h3, the handler from nitro; an explicit import, anywhere in the project
+    { code: 'import { defineHandler } from "nitro"; import { readBody } from "nitro/h3"; export default defineHandler(async (event) => db.save(await readBody(event)));', filename: "src/routes/save.ts", errors: [{ messageId: "unvalidated", data: { name: "readBody", validated: "readValidatedBody" } }] },
+    { code: 'import { getQuery as q } from "nitro/h3"; export default (event) => db.get(q(event).id);', filename: "lib/handler.ts", errors: [{ messageId: "unvalidated", data: { name: "getQuery", validated: "getValidatedQuery" } }] },
   ],
 });
 
