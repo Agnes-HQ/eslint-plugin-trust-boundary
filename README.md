@@ -65,7 +65,7 @@ export default defineEventHandler((event) => readValidatedBody(event, schema.par
 export default defineEventHandler(async (event) => schema.parse(await readBody(event)));   // ✅
 ```
 
-A result that goes through a call named like `parse`, `validate`, `assert` or `decode` (directly, or through the variable it's stored in) counts as validated. Nuxt's and Nitro's auto-imports are recognised in `server/`, `routes/` and `api/` folders. Route params (`getRouterParams`) aren't reported: they're strings the router already matched.
+A result that goes through a call named like `parse`, `validate`, `assert` or `decode` (directly, or through the variable it's stored in) counts as validated. Helpers imported from `h3`, from `nitro/h3` (Nitro 3) or from Nitro 2's and Nuxt's runtime are recognised anywhere, and Nuxt's and Nitro's auto-imports in `server/`, `routes/` and `api/` folders. Route params (`getRouterParams`) aren't reported: they're strings the router already matched.
 
 ## Server → browser
 

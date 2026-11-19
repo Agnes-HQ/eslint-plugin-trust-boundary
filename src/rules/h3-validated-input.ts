@@ -10,7 +10,8 @@ const VALIDATED: Record<string, string> = {
   readBody: "readValidatedBody",
   getQuery: "getValidatedQuery",
 };
-const H3 = /^(?:h3|nitropack\/runtime|nitro\/runtime|#imports)$/;
+// Nitro 3 (the `nitro` package) imports every h3 helper from `nitro/h3`; Nitro 2 (`nitropack`) and Nuxt from the others
+const H3 = /^(?:h3|nitro\/h3|nitropack\/runtime|nitro\/runtime|#imports)$/;
 /** Nuxt and Nitro auto-import h3's helpers in their server folder. */
 const SERVER_DIR = /(?:^|[/\\])(?:server|routes|api)[/\\]/;
 
